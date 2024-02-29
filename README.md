@@ -8,24 +8,29 @@ Création de 2 conteneurs Docker :
    ```bash
    mkdir mqtts
    cd mqtts
-2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml\
+2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml
 ```bash
 docker-compose up -d
 ```
-4. Exécuter d'un processus à l'intérieur du conteneur broker :
+3. On vérifie les conteneurs créés :
+```bash
+docker ps
+```   
+5. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
 docker exec -it mosquitto_broker /bin/bash
 ```
-Modifier la configuration de mosquitto pour fonctionner sur le port 8883 avec des certificats :
+5. Modifier la configuration de mosquitto pour fonctionner sur le port 8883 avec des certificats :
 ```bash
 nano /etc/mosquitto/mosquitto.conf
 ```
-
-Ajouter en fin de fichier la configuration suivante:
+6. Ajouter en fin de fichier la configuration suivante:
+```bash
 listener 8883
 cafile /ca.crt
 certfile /server.crt
 keyfile /server.key
+```
 
 Créer un certificat CA (qui signe le certificat serveur) :
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
