@@ -5,7 +5,7 @@ Création de 2 conteneurs Docker :
 - Un conteneur mosquitto client.
 
 1. Créer un répertoire :\
-2. mkdir mqtts
+   mkdir mqtts
    cd mqtts
 Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml
 Saisir : docker-compose up -d
