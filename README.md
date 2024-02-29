@@ -7,7 +7,7 @@ Création de 2 conteneurs Docker :
 1. Créer un répertoire :
    ```bash
    mkdir mqtts
-   cd mqtts```
+   cd mqtts
 2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml\
 Saisir : docker-compose up -d
 
