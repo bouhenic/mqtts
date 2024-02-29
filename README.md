@@ -38,7 +38,7 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 Relancer le service mosquitto :
 service mosquitto restart
 
-Copier le fichier ca.crt sur le client mosquitto (en 2 étapes) :
+Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
 Copier tout d'abord ca.crt du broker sur la machine host :
 docker cp mosquitto_broker:/ca.crt .
 
