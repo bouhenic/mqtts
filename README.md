@@ -13,10 +13,13 @@ Création de 2 conteneurs Docker :
 docker-compose up -d
 ```
 4. Exécuter d'un processus à l'intérieur du conteneur broker :
+```bash
 docker exec -it mosquitto_broker /bin/bash
-
+```
 Modifier la configuration de mosquitto pour fonctionner sur le port 8883 avec des certificats :
+```bash
 nano /etc/mosquitto/mosquitto.conf
+```
 
 Ajouter en fin de fichier la configuration suivante:
 listener 8883
