@@ -4,7 +4,7 @@ Création de 2 conteneurs Docker :
 - Un conteneur mosquitto broker.
 - Un conteneur mosquitto client.
 
-1. Créer un répertoire :\
+1. Créer un répertoire :
    ```bash
    mkdir mqtts
    cd mqtts```
