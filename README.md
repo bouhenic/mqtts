@@ -9,10 +9,11 @@ Création de 2 conteneurs Docker :
    mkdir mqtts
    cd mqtts
 2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml\
-Saisir : ```bash
-docker-compose up -d
+Saisir :
+```bash
+docker-compose up -d ```
 
-3. Exécuter d'un processus à l'intérieur du conteneur broker :
+4. Exécuter d'un processus à l'intérieur du conteneur broker :
 docker exec -it mosquitto_broker /bin/bash
 
 Modifier la configuration de mosquitto pour fonctionner sur le port 8883 avec des certificats :
