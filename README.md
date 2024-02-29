@@ -45,3 +45,14 @@ docker cp mosquitto_broker:/ca.crt .
 Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
 docker cp ca.crt mosquitto_client:/
 
+Depuis le broker on s'abonne à un topic :
+mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
+
+On se connecte sur le client :
+docker exec -it mosquitto_client /bin/bash
+
+Depuis le client mosquitto, on publie :
+mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
+
+
+
