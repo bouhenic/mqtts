@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mosquitto_broker:
+    image: ubuntu:latest
+    container_name: mosquitto_broker
+    command: >
+      /bin/sh -c "apt-get update && apt-get install -y mosquitto mosquitto-clients nano openssl iproute2 iputils-ping && mosquitto -c /etc/mosquitto/mosquitto.conf"
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+    volumes:
+      - ./broker-config:/etc/mosquitto
+    restart: unless-stopped
+
+  mosquitto_client:
+    image: ubuntu:latest
+    container_name: mosquitto_client
+    command: >
+      /bin/sh -c "apt-get update && apt-get install -y mosquitto-clients nano iproute2 iputils-ping && tail -f /dev/null"
+    restart: unless-stopped
+
