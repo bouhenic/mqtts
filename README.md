@@ -35,3 +35,13 @@ openssl req -out server.csr -key server.key -new
 Signer le CSR avec le certificat CA pour obtenir le certificat serveur :
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360
 
+Relancer le service mosquitto :
+service mosquitto restart
+
+Copier le fichier ca.crt sur le client mosquitto (en 2 étapes) :
+Copier tout d'abord ca.crt du broker sur la machine host :
+docker cp mosquitto_broker:/ca.crt .
+
+Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
+docker cp ca.crt mosquitto_client:/
+
