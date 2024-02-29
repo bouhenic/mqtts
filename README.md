@@ -9,8 +9,7 @@ Création de 2 conteneurs Docker :
    mkdir mqtts
    cd mqtts
 2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml\
-Saisir :
-```bash
+Saisir : ```bash
 docker-compose up -d
 
 3. Exécuter d'un processus à l'intérieur du conteneur broker :
