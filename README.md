@@ -15,7 +15,9 @@ docker-compose up -d
 3. On vérifie les conteneurs créés :
 ```bash
 docker ps
-```   
+```
+![Texte alternatif](URL_de_l'image "scr1.png")
+
 5. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
 docker exec -it mosquitto_broker /bin/bash
