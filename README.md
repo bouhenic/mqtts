@@ -37,8 +37,8 @@ keyfile /server.key
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
 ```
-8. Générer un certificat serveur et une clé :\
-- Créer une clé serveur :
+8. Générer un certificat serveur et une clé :
+- Créer une clé privée serveur :
 ```bash
 openssl genrsa -out server.key 2048
 ```
@@ -57,7 +57,7 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 service mosquitto restart
 ```
 
-14. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :\
+14. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
 - Copier tout d'abord ca.crt du broker sur la machine host :
 ```bash
 docker cp mosquitto_broker:/ca.crt .
