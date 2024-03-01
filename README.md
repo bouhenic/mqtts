@@ -68,7 +68,7 @@ docker cp mosquitto_broker:/ca.crt .
 
 - Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
 ```bash
-docker cp ca.crt mosquitto_client:
+docker cp ca.crt mosquitto_client:/
 ```
 
 12. Depuis le broker on s'abonne à un topic :
