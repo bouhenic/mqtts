@@ -17,7 +17,8 @@ docker-compose up -d
 docker ps
 ```
 ![Texte alternatif](scr1.png)
-5. Exécuter d'un processus à l'intérieur du conteneur broker :
+
+4. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
 docker exec -it mosquitto_broker /bin/bash
 ```
@@ -32,38 +33,55 @@ cafile /ca.crt
 certfile /server.crt
 keyfile /server.key
 ```
-Créer un certificat CA (qui signe le certificat serveur) :
+7. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
 ```
-Générer un certificat serveur et une clé :
+8. Générer un certificat serveur et une clé :
 Créer une clé serveur :
+```bash
 openssl genrsa -out server.key 2048
-
-Créer une demande de signature de certificat (CSR) :
+```
+10. Créer une demande de signature de certificat (CSR) :
+```bash
 openssl req -out server.csr -key server.key -new
+```
 
-Signer le CSR avec le certificat CA pour obtenir le certificat serveur :
+12. Signer le CSR avec le certificat CA pour obtenir le certificat serveur :
+```bash
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360
+```
 
-Relancer le service mosquitto :
+13. Relancer le service mosquitto :
+```bash
 service mosquitto restart
+```
 
-Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
+14. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
 Copier tout d'abord ca.crt du broker sur la machine host :
+```bash
 docker cp mosquitto_broker:/ca.crt .
+```
 
-Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
-docker cp ca.crt mosquitto_client:/
+15. Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
+```bash
+docker cp ca.crt mosquitto_client:
+```
 
-Depuis le broker on s'abonne à un topic :
+16. Depuis le broker on s'abonne à un topic :
+```bash
 mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
+```
 
-On se connecte sur le client :
+17. On se connecte sur le client :
+```bash
 docker exec -it mosquitto_client /bin/bash
+```
 
-Depuis le client mosquitto, on publie :
+18. Depuis le client mosquitto, on publie :
+```bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
+```
 
 
 
