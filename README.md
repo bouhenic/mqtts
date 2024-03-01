@@ -16,7 +16,7 @@ docker-compose up -d
 ```bash
 docker ps
 ```
-![Texte alternatif](URL_de_l'image "scr1.png")
+![Texte alternatif](scr1.png)
 
 5. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
