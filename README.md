@@ -17,7 +17,6 @@ docker-compose up -d
 docker ps
 ```
 ![Texte alternatif](scr1.png)
-
 5. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
 docker exec -it mosquitto_broker /bin/bash
@@ -33,10 +32,10 @@ cafile /ca.crt
 certfile /server.crt
 keyfile /server.key
 ```
-
 Créer un certificat CA (qui signe le certificat serveur) :
+```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
-
+```
 Générer un certificat serveur et une clé :
 Créer une clé serveur :
 openssl genrsa -out server.key 2048
