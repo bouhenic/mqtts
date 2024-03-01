@@ -37,7 +37,7 @@ keyfile /server.key
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
 ```
-8. Générer un certificat serveur et une clé :
+8. Générer un certificat serveur et une clé :\
 Créer une clé serveur :
 ```bash
 openssl genrsa -out server.key 2048
