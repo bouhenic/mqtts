@@ -38,11 +38,11 @@ keyfile /server.key
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
 ```
 8. Générer un certificat serveur et une clé :\
-Créer une clé serveur :
+- Créer une clé serveur :
 ```bash
 openssl genrsa -out server.key 2048
 ```
-10. Créer une demande de signature de certificat (CSR) :
+- Créer une demande de signature de certificat (CSR) :
 ```bash
 openssl req -out server.csr -key server.key -new
 ```
@@ -58,27 +58,27 @@ service mosquitto restart
 ```
 
 14. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :\
-Copier tout d'abord ca.crt du broker sur la machine host :
+- Copier tout d'abord ca.crt du broker sur la machine host :
 ```bash
 docker cp mosquitto_broker:/ca.crt .
 ```
 
-15. Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
+- Copier le fichier ca.crt depuis le machine host vers le broker mosquitto :
 ```bash
 docker cp ca.crt mosquitto_client:
 ```
 
-16. Depuis le broker on s'abonne à un topic :
+15. Depuis le broker on s'abonne à un topic :
 ```bash
 mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
 ```
 
-17. On se connecte sur le client :
+16. On se connecte sur le client :
 ```bash
 docker exec -it mosquitto_client /bin/bash
 ```
 
-18. Depuis le client mosquitto, on publie :
+17. Depuis le client mosquitto, on publie :
 ```bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
 ```
