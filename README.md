@@ -20,7 +20,7 @@ docker ps
 
 4. Exécuter d'un processus à l'intérieur du conteneur broker :
 ```bash
-docker exec -it mosquitto_broker /bin/bash
+docker exec -it mosquitto_broker /bin/sh
 ```
 5. Modifier la configuration de mosquitto pour fonctionner sur le port 8883 avec des certificats :
 ```bash
@@ -57,7 +57,7 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 - out server.crt : Définit le nom du fichier de sortie pour le certificat signé. Dans cet exemple, le certificat signé est sauvegardé dans server.crt.
 10. Relancer le service mosquitto :
 ```bash
-service mosquitto restart
+mosquitto -c /etc/mosquitto/mosquitto.conf
 ```
 
 11. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
