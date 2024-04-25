@@ -2,15 +2,18 @@ version: '3.8'
 
 services:
   mosquitto_broker:
-    image: ubuntu:latest
+    image: eclipse-mosquitto
     container_name: mosquitto_broker
     command: >
-      /bin/sh -c "apt-get update && apt-get install -y mosquitto mosquitto-clients nano openssl iproute2 iputils-ping && mosquitto -c /etc/mosquitto/mosquitto.conf"
+      /bin/sh -c "apk update && apk add --no-cache mosquitto-clients nano openssl iproute2 iputils-ping&& tail -f /dev/null"
     ports:
       - "1883:1883"
       - "8883:8883"
     volumes:
-      - ./broker-config:/etc/mosquitto
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+    restart: unless-stopped
     networks:
       app_network:
         ipv4_address: 172.27.0.2
