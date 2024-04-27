@@ -9,7 +9,6 @@ Création de 2 conteneurs Docker :
 git clone https://github.com/bouhenic/mqtts
 cd mqtts
 ```
-cd mqtts
 2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml
 ```bash
 docker-compose up -d
