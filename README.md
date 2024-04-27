@@ -111,6 +111,25 @@ docker exec -it mosquitto_client /bin/bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
 ```
 
+## AUTHENTIFICATION DU CLIENT PAR MOT DE PASSE :
 
+19. Modifier le fichier mosquitto.conf :
+```bash
+nano /etc/mosquitto/mosquitto.conf
+```
+20. Ajouter les lignes suivantes :
+```bash
+allow_anonymous false
+password_file /mosquitto_passwd
+```
+21. Création des utilisateurs :
+```bash
+mosquitto_passwd -c /mosquitto_passwd userclient
+mosquitto_passwd  /mosquitto_passwd userbroker
+```
+22. Relancement du service mosquitto:
+```bash
+mosquito -c /etc	/mosquito/mosquitto.conf
+```
 
 
