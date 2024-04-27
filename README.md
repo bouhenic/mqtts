@@ -49,6 +49,7 @@ certfile /server.crt
 keyfile /server.key
 ```
 ## GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
+![Texte alternatif](echsslmqtt.svg)
 
 7. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
