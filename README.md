@@ -49,7 +49,7 @@ certfile /server.crt
 keyfile /server.key
 ```
 ## GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
-![Texte alternatif](ssl-4.svg)
+
 7. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
@@ -97,11 +97,13 @@ mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
 ```bash
 docker exec -it mosquitto_client /bin/bash
 ```
+![Texte alternatif](ssl-4.svg)
 
 14. Depuis le client mosquitto, on publie :
 ```bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
 ```
+
 
 
 
