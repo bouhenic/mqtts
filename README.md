@@ -5,9 +5,9 @@ Création de 2 conteneurs Docker :
 - Un conteneur mosquitto client.
 
 1. Cloner le répertoire :
-   ```bash
-   git clone https://github.com/bouhenic/mqtts
-   cd mqtts
+```bash
+git clone https://github.com/bouhenic/mqtts
+cd mqtts
 2. Instanciation des conteneurs et ressources associées définies dans le fichier docker-compose.yaml
 ```bash
 docker-compose up -d
