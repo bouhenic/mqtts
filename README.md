@@ -41,7 +41,11 @@ mosquitto -c /etc/mosquitto/mosquitto.conf
 ```bash
 docker exec -it mosquitto_broker /bin/sh
 ```
-9. Ajouter en fin de fichier la configuration suivante:
+9. Editer et modifier mosquitto.conf :
+```bash
+nano /etc/mosquitto/mosquitto.conf
+```
+10. Ajouter en fin de fichier la configuration suivante:
 ```bash
 listener 8883
 cafile /ca.crt
@@ -51,11 +55,11 @@ keyfile /server.key
 ## GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
 ![Texte alternatif](echsslmqtt.svg)
 
-10. Créer un certificat CA (qui signe le certificat serveur) :
+11. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
 ```
-11. Générer une clé privée et une demande de Signature de Certificat:
+12. Générer une clé privée et une demande de Signature de Certificat:
 - Créer une clé privée serveur :
 ```bash
 openssl genrsa -out server.key 2048
@@ -65,7 +69,7 @@ openssl genrsa -out server.key 2048
 openssl req -out server.csr -key server.key -new
 ```
 
-12. Signer la Demande de Signature de Certificat (CSR) et générer un certificat SSL/TLS signé:
+13. Signer la Demande de Signature de Certificat (CSR) et générer un certificat SSL/TLS signé:
 ```bash
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360
 ```
@@ -74,12 +78,12 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 - CAkey ca.key : Spécifie la clé privée de l'Autorité de Certification (ca.key) qui correspond au certificat public spécifié par -CA. Cette clé privée est utilisée pour signer effectivement la CSR et générer le certificat signé.
 - out server.crt : Définit le nom du fichier de sortie pour le certificat signé. Dans cet exemple, le certificat signé est sauvegardé dans server.crt.
   
-13. Relancer le service mosquitto :
+14. Relancer le service mosquitto :
 ```bash
 mosquitto -c /etc/mosquitto/mosquitto.conf
 ```
 
-14. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
+15. Copier le fichier ca.crt (représente le certificat de l'Autorité de Certification) sur le client mosquitto (en 2 étapes) :
 - Copier tout d'abord ca.crt du broker sur la machine host :
 ```bash
 docker cp mosquitto_broker:/ca.crt .
@@ -90,19 +94,19 @@ docker cp mosquitto_broker:/ca.crt .
 docker cp ca.crt mosquitto_client:/
 ```
 
-15. Depuis le broker on s'abonne à un topic :
+16. Depuis le broker on s'abonne à un topic :
 ```bash
 mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
 ```
 
-16. On se connecte sur le client :
+17. On se connecte sur le client :
 ```bash
 docker exec -it mosquitto_client /bin/bash
 ```
 ## CRÉATION DE 2 CONTENEURS DOCKER :
 ![Texte alternatif](ssl-4.svg)
 
-17. Depuis le client mosquitto, on publie :
+18. Depuis le client mosquitto, on publie :
 ```bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
 ```
