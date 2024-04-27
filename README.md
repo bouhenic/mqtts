@@ -1,8 +1,7 @@
 # TP SÉCURITÉ DU MQTT
-
+## CRÉATION DE 2 CONTENEURS DOCKER :
 ![Texte alternatif](mqtt.drawio.svg)
 
-##CRÉATION DE 2 CONTENEURS DOCKER :
 - Un conteneur mosquitto broker.
 - Un conteneur mosquitto client.
 
@@ -49,8 +48,8 @@ cafile /ca.crt
 certfile /server.crt
 keyfile /server.key
 ```
-##GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
-![Texte alternatif](mqtt.drawio.svg)
+## GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
+![Texte alternatif](ssl-4.svg)
 7. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
 openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
