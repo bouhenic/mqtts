@@ -129,7 +129,15 @@ mosquitto_passwd  /mosquitto_passwd userbroker
 ```
 22. Relancement du service mosquitto:
 ```bash
-mosquito -c /etc	/mosquito/mosquitto.conf
+mosquito -c /etc/mosquito/mosquitto.conf
 ```
-
+## TEST DE L’AUTHENTIFICATION PAR MOT DE PASSE:
+23. Abonnement à un topic depuis le broker :
+```bash
+mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -u userbroker -P xxxxxxxxxx -t your/topic
+```
+24. Publication d’un message sur le client :
+```bash
+mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -u userclient2 -P xxxxxxxxxx -t your/topic -m "Hello world"
+```
 
