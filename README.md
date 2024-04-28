@@ -140,4 +140,16 @@ mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -u userbroker -P xxxxxxxxxx
 ```bash
 mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt -u userclient2 -P xxxxxxxxxx -t your/topic -m "Hello world"
 ```
-
+## CRÉATION DES CERTIFICATS CLIENT :
+25. Installation de l’utilitaire openssl sur le conteneur mosquitto_client :
+```bash
+apt install openssl
+```
+26. Création d’une clé privée pour le client  :
+```bash
+openssl genrsa -out client.key 2048
+```
+27. Création d’une demande de signature de certificat (CSR)  :
+```bash
+openssl req -out client.csr -key client.key -new
+```
