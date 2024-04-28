@@ -159,7 +159,21 @@ openssl req -out client.csr -key client.key -new
 ```bash
 docker cp mosquitto_broker:/ca.key .
 ```
-29. 6.	Copie de la clé privée du CA du système host vers le conteneur client  :
+29. Copie de la clé privée du CA du système host vers le conteneur client  :
 ```bash
 docker cp ca.key mosquitto_client:/
+```
+### Retour sur le conteneur mosquitto_client :
+30. Signature de la Demande de Signature de Certificat (CSR) et génération d’un certificat SSL/TLS signé  :
+```bash
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 360
+```
+## TEST DE L’AUTHENTIFICATION DU CLIENT PAR CERTFICAT ET MOT DE PASSE :
+31. Abonnement à un topic depuis le broker :
+```bash
+mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt --cert /server.crt --key /server.key -u userbroker -P xxxxxxxx -t "your/topic"
+```
+32. Publication d’un message sur le client :
+```bash
+mosquitto_pub -h 172.27.0.2 -p 8883 --cafile /ca.crt --cert /client.crt --key /client.key -u userclient -P xxxxxxxx -t "your/topic" -m "Hello world"
 ```
