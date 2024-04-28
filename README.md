@@ -153,3 +153,13 @@ openssl genrsa -out client.key 2048
 ```bash
 openssl req -out client.csr -key client.key -new
 ```
+28. Lancement d’une nouvelle fenêtre de terminale du système host :
+
+28. Copie de la clé privée du CA du conteneur broker vers le système host  :
+```bash
+docker cp mosquitto_broker:/ca.key .
+```
+29. 6.	Copie de la clé privée du CA du système host vers le conteneur client  :
+```bash
+docker cp ca.key mosquitto_client:/
+```
