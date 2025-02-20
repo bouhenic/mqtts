@@ -18,7 +18,7 @@ docker-compose up -d
 ```bash
 docker ps
 ```
-![Texte alternatif](scr1.png)
+![Texte alternatif](../scr1.png)
 
 4. Exécuter un processus à l'intérieur du conteneur broker :
 ```bash
@@ -53,7 +53,7 @@ certfile /server.crt
 keyfile /server.key
 ```
 ## GÉNÉRATION DES CERTIFICATS DU CA ET DU SERVEUR :
-![Texte alternatif](echsslmqtt.svg)
+![Texte alternatif](../echsslmqtt.svg)
 
 11. Créer un certificat CA (qui signe le certificat serveur) :
 ```bash
@@ -104,7 +104,7 @@ mosquitto_sub -h 172.27.0.2 -p 8883 --cafile /ca.crt -t your/topic
 docker exec -it mosquitto_client /bin/bash
 ```
 ## TEST DU MQTTS:
-![Texte alternatif](ssl-4.svg)
+![Texte alternatif](../ssl-4.svg)
 
 18. Depuis le client mosquitto, on publie :
 ```bash
