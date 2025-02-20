@@ -1,6 +1,6 @@
 # TP SÉCURITÉ DU MQTT
 ## CRÉATION DE 2 CONTENEURS DOCKER :
-![Texte alternatif](mqtt.drawio.svg)
+![Texte alternatif](../mqtt.drawio.svg)
 
 - Un conteneur mosquitto broker.
 - Un conteneur mosquitto client.
