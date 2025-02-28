@@ -91,11 +91,3 @@ Le TP est structuré en plusieurs étapes progressives:
 - [Guide de sécurité MQTT OWASP](https://owasp.org/www-project-iot-security/)
 - [Documentation Mosquitto Broker](https://mosquitto.org/documentation/)
 
-## Contributions
-
-Les contributions sont les bienvenues! N'hésitez pas à soumettre des issues ou des pull requests.
-
-## Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
