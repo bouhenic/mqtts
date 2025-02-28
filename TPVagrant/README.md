@@ -23,8 +23,8 @@ Ce dépôt contient les ressources et instructions pour mettre en place un envir
 
 1. Clonez ce dépôt:
 ```bash
-git clone https://github.com/votrenom/mqtts-security
-cd mqtts-security
+git clone https://github.com/bouhenic/mqtts
+cd mqtts
 ```
 
 2. Lancez les machines virtuelles:
@@ -78,8 +78,6 @@ Le TP est structuré en plusieurs étapes progressives:
 ## Contenu du dépôt
 
 - `Vagrantfile` - Configuration pour déployer automatiquement l'environnement de test
-- `docs/` - Documentation détaillée et ressources pédagogiques
-- `scripts/` - Scripts d'automatisation et de configuration
 
 ## Pour aller plus loin
 
