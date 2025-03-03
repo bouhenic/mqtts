@@ -109,12 +109,12 @@ sudo systemctl status mosquitto
 
 #### Abonnement (depuis le broker)
 ```bash
-mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt -t your/topic
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt -t your/topic
 ```
 
 #### Publication (depuis le client)
 ```bash
-mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt -t your/topic -m "Hello world"
 ```
 
 ---
@@ -151,12 +151,12 @@ cat /mosquitto_passwd
 
 #### Abonnement depuis le broker
 ```bash
-mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt -u userbroker -P <mot_de_passe> -t your/topic
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt -u userbroker -P <mot_de_passe> -t your/topic
 ```
 
 #### Publication depuis le client
 ```bash
-mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
 ```
 
 ---
@@ -199,12 +199,12 @@ sudo systemctl restart mosquitto
 
 #### Abonnement (depuis le broker)
 ```bash
-mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt --cert /server.crt --key /server.key -u userbroker -P <mot_de_passe> -t your/topic
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt --cert /home/vagrant/server.crt --key /home/vagrant/server.key -u userbroker -P <mot_de_passe> -t your/topic
 ```
 
 #### Publication (depuis le client)
 ```bash
-mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt --cert /client.crt --key /client.key -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /home/vagrant/ca.crt --cert /home/vagrant/client.crt --key /home/vagrant/client.key -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
 ```
 
 ## Pour aller plus loin
