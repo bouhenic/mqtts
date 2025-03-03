@@ -41,43 +41,171 @@ vagrant ssh broker
 vagrant ssh client -- -X
 ```
 
-## Structure du TP
+# Configuration du Broker MQTT
 
-Le TP est structuré en plusieurs étapes progressives:
+## Création des certificats serveur
 
-1. **Configuration de l'environnement de test**
-   - Déploiement automatisé avec Vagrant
-   - Mise en place de deux VMs Ubuntu: broker (192.168.56.20) et client (192.168.56.21)
+### 1. Créer une Autorité de Certification (CA)
+Sur la VM **broker**, exécutez la commande suivante pour créer une CA auto-signée valable environ 5 ans :
 
-2. **Création et configuration des certificats**
-   - Mise en place d'une autorité de certification (CA)
-   - Génération des certificats serveur et client
-   - Signatures des certificats
+```bash
+openssl req -new -x509 -days 1826 -extensions v3_ca -keyout ca.key -out ca.crt
+```
 
-3. **Configuration du broker MQTT**
-   - Configuration MQTTS avec certificats
-   - Mise en place de l'authentification par mot de passe
-   - Configuration de l'authentification par certificat client
+### 2. Générer la clé privée du serveur
+```bash
+openssl genrsa -out server.key 2048
+```
 
-4. **Tests de sécurité**
-   - Communication MQTT sécurisée
-   - Vérification de l'authentification
-   - Tests des différentes méthodes de sécurisation
+### 3. Créer une demande de signature de certificat (CSR) pour le serveur
+```bash
+openssl req -out server.csr -key server.key -new
+```
 
-## Détails techniques
+### 4. Signer la CSR pour générer le certificat serveur
+```bash
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360
+```
 
-### Topologie du réseau
-- **Broker MQTT**: 192.168.56.20
-- **Client MQTT**: 192.168.56.21
-- **Réseau**: 192.168.56.0/24
+---
 
-### Ports utilisés
-- **1883**: MQTT standard (non sécurisé)
-- **8883**: MQTTS (MQTT sur TLS)
+## Configuration de Mosquitto
 
-## Contenu du dépôt
+### 1. Modifier le fichier de configuration
+Ajoutez les lignes suivantes à la fin de `/etc/mosquitto/mosquitto.conf` :
 
-- `Vagrantfile` - Configuration pour déployer automatiquement l'environnement de test
+```conf
+listener 8883
+cafile /home/vagrant/ca.crt
+certfile /home/vagrant/server.crt
+keyfile /home/vagrant/server.key
+```
+
+### 2. Redémarrer le service Mosquitto
+```bash
+sudo systemctl restart mosquitto
+```
+
+### 3. Vérifier le statut du service
+```bash
+sudo systemctl status mosquitto
+```
+
+---
+
+## Recopie du certificat CA sur le Client
+
+1. Sur la VM **broker**, afficher le contenu du certificat CA :
+   ```bash
+   cat /home/vagrant/ca.crt
+   ```
+2. Copier ce contenu et le coller dans un fichier `ca.crt` sur la VM **client**.
+
+---
+
+## Test du MQTTS
+
+### 1. Abonnement et publication
+
+#### Abonnement (depuis le broker)
+```bash
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt -t your/topic
+```
+
+#### Publication (depuis le client)
+```bash
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt -t your/topic -m "Hello world"
+```
+
+---
+
+## Authentification par mot de passe
+
+### 1. Configuration
+
+#### Modifier le fichier de configuration
+Ajoutez les lignes suivantes dans `/etc/mosquitto/mosquitto.conf` :
+```conf
+allow_anonymous false
+password_file /mosquitto_passwd
+```
+
+#### Créer les utilisateurs
+Par exemple, pour `userclient` et `userbroker` :
+```bash
+sudo mosquitto_passwd -c /mosquitto_passwd userclient
+sudo mosquitto_passwd /mosquitto_passwd userbroker
+```
+
+#### Redémarrer Mosquitto
+```bash
+sudo systemctl restart mosquitto
+```
+
+#### Vérifier le contenu du fichier des mots de passe
+```bash
+cat /mosquitto_passwd
+```
+
+### 2. Test d'authentification par mot de passe
+
+#### Abonnement depuis le broker
+```bash
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt -u userbroker -P <mot_de_passe> -t your/topic
+```
+
+#### Publication depuis le client
+```bash
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
+```
+
+---
+
+## Authentification par certificat (Client)
+
+### 1. Création des certificats client
+
+#### Générer la clé privée du client
+Sur la VM **client** :
+```bash
+openssl genrsa -out client.key 2048
+```
+
+#### Créer une demande de signature de certificat (CSR) pour le client
+```bash
+openssl req -out client.csr -key client.key -new
+```
+
+#### Copier le fichier `ca.key` depuis la VM broker sur la VM client
+
+#### Signer la CSR pour générer le certificat client
+```bash
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 360
+```
+
+### 2. Configuration du Broker pour l'authentification client
+
+#### Ajouter la ligne suivante dans `/etc/mosquitto/mosquitto.conf`
+```conf
+require_certificate true
+```
+
+#### Redémarrer Mosquitto
+```bash
+sudo systemctl restart mosquitto
+```
+
+### 3. Test de l'authentification par certificat et mot de passe
+
+#### Abonnement (depuis le broker)
+```bash
+mosquitto_sub -h 192.168.56.20 -p 8883 --cafile /ca.crt --cert /server.crt --key /server.key -u userbroker -P <mot_de_passe> -t your/topic
+```
+
+#### Publication (depuis le client)
+```bash
+mosquitto_pub -h 192.168.56.20 -p 8883 --cafile /ca.crt --cert /client.crt --key /client.key -u userclient -P <mot_de_passe> -t your/topic -m "Hello world"
+```
 
 ## Pour aller plus loin
 
