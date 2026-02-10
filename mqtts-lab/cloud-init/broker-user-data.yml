@@ -1,0 +1,62 @@
+#cloud-config
+hostname: broker
+manage_etc_hosts: true
+fqdn: broker.local
+
+users:
+  - name: vagrant
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    groups: sudo
+    ssh_authorized_keys:
+      - CHANGEME_CLE_PUBLIQUE_HOTE
+  - name: client
+    passwd: CHANGEME_CLIENT_HASH
+    lock_passwd: false
+    shell: /bin/bash
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - openssl
+  - mosquitto
+  - mosquitto-clients
+  - ufw
+  - curl
+  - net-tools
+
+write_files:
+  - path: /etc/mosquitto/conf.d/default.conf
+    content: |
+      # Configuration MQTT de base
+      listener 1883
+      allow_anonymous true
+
+      # Listener TLS (à configurer avec les certificats)
+      # listener 8883
+      # cafile /etc/mosquitto/certs/ca.crt
+      # certfile /etc/mosquitto/certs/broker.crt
+      # keyfile /etc/mosquitto/certs/broker.key
+
+runcmd:
+  # Génération clé SSH pour vagrant
+  - sudo -u vagrant mkdir -p /home/vagrant/.ssh
+  - sudo -u vagrant ssh-keygen -t rsa -b 2048 -N "" -f /home/vagrant/.ssh/id_rsa
+  - chmod 700 /home/vagrant/.ssh
+  - chmod 600 /home/vagrant/.ssh/id_rsa
+  - chmod 644 /home/vagrant/.ssh/id_rsa.pub
+  # Exporter la clé publique pour récupération ultérieure
+  - cp /home/vagrant/.ssh/id_rsa.pub /tmp/broker_key.pub
+  # Configuration UFW
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 22/tcp
+  - ufw allow 1883/tcp
+  - ufw allow 8883/tcp
+  - echo "y" | ufw enable
+  # Redémarrer mosquitto avec la config
+  - systemctl enable mosquitto
+  - systemctl restart mosquitto
+
+final_message: "== Broker MQTT prêt après $UPTIME secondes =="
